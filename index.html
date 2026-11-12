@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ótica & Afiação Gonçalves | Jales - SP</title>
+    <meta name="description" content="Ótica & Afiação Gonçalves em Jales - SP. Exame de vista agendado, lentes Kodak, Varilux, Hoya e Zeiss, armações infantis, de sol e grau a partir de R$ 70,00.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                        display: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        ink: '#1A1A1A',
+                        brand: {
+                            50: '#FFF5EE',
+                            100: '#FFE6D5',
+                            200: '#FFCAA8',
+                            400: '#FF8533',
+                            500: '#FF6B00',
+                            600: '#F35B04',
+                            700: '#CC4800',
+                            900: '#7A2A00',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 30px -6px rgba(26, 26, 26, 0.06)',
+                        'orange': '0 12px 28px -6px rgba(243, 91, 4, 0.32)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .page-view { display: none; animation: pageFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .page-view.active { display: block; }
+        @keyframes pageFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card-anim { animation: slideUp 0.28s ease-out forwards; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-white text-ink font-sans antialiased selection:bg-brand-600 selection:text-white flex flex-col min-h-screen">
+
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-zinc-100 shadow-xs">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <button onclick="navigateTo('inicio')" class="flex items-center gap-3 text-left group focus:outline-none cursor-pointer">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-white flex items-center justify-center shadow-orange group-hover:scale-105 transition-transform shrink-0">
+                        <svg class="w-6 h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2.5" y="10" width="9" height="8" rx="3"/>
+                            <rect x="16.5" y="10" width="9" height="8" rx="3"/>
+                            <path d="M11.5 13.5c1.5-1 3.5-1 5 0"/>
+                            <path d="M2.5 12.5 5 6.5"/>
+                            <path d="M25.5 12.5 23 6.5"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="block font-display font-extrabold text-lg sm:text-xl tracking-tight text-ink leading-none">Gonçalves</span>
+                        <span class="block text-[11px] font-bold tracking-widest uppercase text-brand-600 mt-1">Ótica & Afiação</span>
+                    </div>
+                </button>
+
+                <nav class="hidden lg:flex items-center gap-1" aria-label="Menu Principal">
+                    <button onclick="navigateTo('inicio')" data-nav="inicio" class="nav-link px-3.5 py-2 rounded-xl text-sm font-semibold transition-all text-brand-600 bg-brand-50 cursor-pointer">Início</button>
+                    <button onclick="navigateTo('lentes')" data-nav="lentes" class="nav-link px-3.5 py-2 rounded-xl text-sm font-semibold transition-all text-zinc-600 hover:text-brand-600 hover:bg-zinc-50 cursor-pointer">Lentes & Como Pedir</button>
+                    <button onclick="navigateTo('armacoes')" data-nav="armacoes" class="nav-link px-3.5 py-2 rounded-xl text-sm font-semibold transition-all text-zinc-600 hover:text-brand-600 hover:bg-zinc-50 cursor-pointer">Armações & Modelos</button>
+                    <button onclick="navigateTo('exame')" data-nav="exame" class="nav-link px-3.5 py-2 rounded-xl text-sm font-semibold transition-all text-zinc-600 hover:text-brand-600 hover:bg-zinc-50 cursor-pointer">Agendar Exame</button>
+                    <button onclick="navigateTo('contato')" data-nav="contato" class="nav-link px-3.5 py-2 rounded-xl text-sm font-semibold transition-all text-zinc-600 hover:text-brand-600 hover:bg-zinc-50 cursor-pointer">Contato & Localização</button>
+                </nav>
+
+                <div class="flex items-center gap-2.5">
+                    <button onclick="navigateTo('exame')" class="bg-brand-600 hover:bg-brand-700 active:scale-[0.98] text-white font-display font-bold text-xs sm:text-sm px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl shadow-orange transition-all flex items-center gap-2 cursor-pointer">
+                        <span>Agendar Exame</span>
+                    </button>
+
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Abrir menu" class="lg:hidden p-2.5 rounded-xl border border-zinc-200 text-ink hover:bg-zinc-50 focus:outline-none cursor-pointer">
+                        <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                        <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-zinc-200 px-4 pt-2 pb-5 space-y-1.5 shadow-lg">
+            <button onclick="navigateTo('inicio'); toggleMobileMenu()" data-nav-mobile="inicio" class="mobile-nav-link w-full text-left px-4 py-3 rounded-xl text-base font-semibold bg-brand-50 text-brand-600 cursor-pointer">Início</button>
+            <button onclick="navigateTo('lentes'); toggleMobileMenu()" data-nav-mobile="lentes" class="mobile-nav-link w-full text-left px-4 py-3 rounded-xl text-base font-semibold text-zinc-700 hover:bg-zinc-50 cursor-pointer">Lentes & Como Pedir</button>
+            <button onclick="navigateTo('armacoes'); toggleMobileMenu()" data-nav-mobile="armacoes" class="mobile-nav-link w-full text-left px-4 py-3 rounded-xl text-base font-semibold text-zinc-700 hover:bg-zinc-50 cursor-pointer">Armações & Modelos</button>
+            <button onclick="navigateTo('exame'); toggleMobileMenu()" data-nav-mobile="exame" class="mobile-nav-link w-full text-left px-4 py-3 rounded-xl text-base font-semibold text-zinc-700 hover:bg-zinc-50 cursor-pointer">Agendar Exame</button>
+            <button onclick="navigateTo('contato'); toggleMobileMenu()" data-nav-mobile="contato" class="mobile-nav-link w-full text-left px-4 py-3 rounded-xl text-base font-semibold text-zinc-700 hover:bg-zinc-50 cursor-pointer">Contato & Localização</button>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section id="page-inicio" class="page-view active">
+            <div class="bg-white pt-10 pb-14 sm:pt-16 sm:pb-20 border-b border-zinc-100">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="space-y-6 max-w-3xl">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-xs font-bold tracking-widest uppercase">
+                            <span class="w-2 h-2 rounded-full bg-brand-600 animate-pulse"></span>
+                            Centro • Jales - SP
+                        </div>
+
+                        <h1 class="font-display text-4xl sm:text-5xl lg:text-[52px] font-extrabold text-ink leading-[1.12] tracking-tight">
+                            Óculos que combinam com você, do exame ao ajuste perfeito.
+                        </h1>
+
+                        <p class="text-base sm:text-lg text-zinc-600 leading-relaxed max-w-2xl">
+                            Meça seu grau, escolha sua armação e retire seus óculos prontos em <strong class="text-ink font-semibold">2 a 3 dias úteis</strong>. Já tem receita? Traga para orçamento. Não tem? Agende seu exame de vista conosco.
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row flex-wrap gap-3 pt-1">
+                            <button onclick="navigateTo('exame')" class="w-full sm:w-auto bg-brand-600 hover:bg-brand-700 text-white font-display font-bold text-sm sm:text-base px-6 py-4 rounded-2xl shadow-orange transition-all flex items-center justify-center gap-2 cursor-pointer">
+                                <span>Agendar Exame de Vista</span>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                </svg>
+                            </button>
+
+                            <button onclick="navigateTo('armacoes')" class="w-full sm:w-auto bg-white hover:bg-brand-50 text-ink border-2 border-zinc-200 hover:border-brand-400 font-display font-bold text-sm sm:text-base px-6 py-4 rounded-2xl transition-all flex items-center justify-center gap-2 cursor-pointer">
+                                <span>Ver Opções de Armações</span>
+                            </button>
+
+                            <a href="https://www.google.com/maps/search/?api=1&query=%C3%93tica+Gon%C3%A7alves+Jales" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto bg-[#FAFAFA] hover:bg-zinc-100 text-zinc-800 border border-zinc-200 font-display font-bold text-sm sm:text-base px-5 py-4 rounded-2xl transition-all flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                <span>Abrir no Google Maps</span>
+                            </a>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-3 sm:gap-6 pt-5 border-t border-zinc-100">
+                            <div>
+                                <p class="text-xs text-zinc-500 font-medium">Armações a partir de</p>
+                                <p class="font-display text-lg sm:text-2xl font-extrabold text-brand-600">R$ 70,00</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-zinc-500 font-medium">Parcelamento</p>
+                                <p class="font-display text-lg sm:text-2xl font-extrabold text-ink">Até 10x no cartão</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-zinc-500 font-medium">Prazo de entrega</p>
+                                <p class="font-display text-lg sm:text-2xl font-extrabold text-ink">2 a 3 dias úteis</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-brand-600 text-white py-8">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                    <div class="flex items-start sm:items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-widest text-brand-100">Onde Estamos • Jales - SP</p>
+                            <h2 class="font-display text-lg sm:text-2xl font-extrabold tracking-tight">Rua Nove, 2381 - Centro, Jales - SP</h2>
+                            <p class="text-sm text-brand-50 mt-0.5">Segunda a Sexta: 08h às 18h &nbsp;|&nbsp; Sábado: 09h às 12h</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+                        <a href="https://www.google.com/maps/search/?api=1&query=%C3%93tica+Gon%C3%A7alves+Jales" target="_blank" rel="noopener noreferrer" class="flex-1 lg:flex-initial bg-white text-brand-700 hover:bg-brand-50 font-display font-bold text-sm px-5 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                            </svg>
+                            <span>Abrir no Google Maps</span>
+                        </a>
+                        <button onclick="navigateTo('contato')" class="flex-1 lg:flex-initial bg-brand-700 hover:bg-brand-900 text-white border border-brand-400/50 font-display font-semibold text-sm px-5 py-3.5 rounded-xl transition-all text-center cursor-pointer">Ver horários e contato</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-[#FAFAFA] py-16 sm:py-20">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-2xl mb-12">
+                        <span class="text-brand-600 font-bold text-xs uppercase tracking-widest">Pilares de Atendimento</span>
+                        <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-ink mt-2">O que fazemos por você</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-3xl p-7 sm:p-8 border border-zinc-200/70 shadow-soft hover:border-brand-300 transition-all flex flex-col justify-between">
+                            <div>
+                                <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center mb-5">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="font-display text-xl font-bold text-ink">Exame de Vista Agendado</h3>
+                                <p class="text-zinc-600 mt-2.5 leading-relaxed">Avaliação da visão e medição precisa do grau agendada diretamente com a dona no telefone (17) 99148-8562.</p>
+                            </div>
+                            <div class="pt-5 mt-6 border-t border-zinc-100">
+                                <button onclick="navigateTo('exame')" class="text-brand-600 hover:text-brand-700 font-display font-bold text-sm inline-flex items-center gap-1.5 group cursor-pointer">
+                                    <span>Agendar exame agora</span>
+                                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-3xl p-7 sm:p-8 border border-zinc-200/70 shadow-soft hover:border-brand-300 transition-all flex flex-col justify-between">
+                            <div>
+                                <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center mb-5">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="9"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.5 8.5l7 7"/>
+                                    </svg>
+                                </div>
+                                <h3 class="font-display text-xl font-bold text-ink">Lentes de Alta Tecnologia</h3>
+                                <p class="text-zinc-600 mt-2.5 leading-relaxed">Filtro de luz azul, antirreflexo e multifocais das marcas líderes: <strong>Kodak, Varilux, Hoya e Zeiss</strong>. Prontas em 2 a 3 dias úteis.</p>
+                            </div>
+                            <div class="pt-5 mt-6 border-t border-zinc-100">
+                                <button onclick="navigateTo('lentes')" class="text-brand-600 hover:text-brand-700 font-display font-bold text-sm inline-flex items-center gap-1.5 group cursor-pointer">
+                                    <span>Explorar lentes e explicações</span>
+                                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-lentes" class="page-view">
+            <div class="bg-white pt-10 pb-16 sm:pt-14 sm:pb-24">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-3xl mb-10">
+                        <span class="inline-block px-3.5 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-bold uppercase tracking-widest mb-3">Tecnologia Óptica</span>
+                        <h1 class="font-display text-3xl sm:text-5xl font-extrabold text-ink leading-tight">Qual lente serve para você?</h1>
+                        <p class="text-zinc-600 text-base sm:text-lg mt-3 leading-relaxed">Toque em um tipo para ver para quem ele serve. A escolha final é feita com o atendente, olhando sua receita e sua rotina.</p>
+                    </div>
+
+                    <div class="bg-[#FFFDFB] border border-zinc-200/90 rounded-3xl p-5 sm:p-8 lg:p-10 shadow-soft mb-16">
+                        <div class="flex flex-col gap-3 mb-8 max-w-xl">
+                            <button onclick="selectLens('luz-azul')" data-lens="luz-azul" class="lens-btn w-full text-left font-display font-bold text-sm sm:text-base px-6 py-4 rounded-2xl border-2 transition-all bg-[#2E1F18] text-white border-[#2E1F18] shadow-sm cursor-pointer">Filtro de Luz Azul</button>
+                            <button onclick="selectLens('antirreflexo')" data-lens="antirreflexo" class="lens-btn w-full text-left font-display font-bold text-sm sm:text-base px-6 py-4 rounded-2xl border-2 transition-all bg-white text-ink border-zinc-200 hover:border-brand-400 cursor-pointer">Lentes com Antirreflexo</button>
+                            <button onclick="selectLens('kodak')" data-lens="kodak" class="lens-btn w-full text-left font-display font-bold text-sm sm:text-base px-6 py-4 rounded-2xl border-2 transition-all bg-white text-ink border-zinc-200 hover:border-brand-400 cursor-pointer">Multifocais Kodak</button>
+                            <button onclick="selectLens('varilux')" data-lens="varilux" class="lens-btn w-full text-left font-display font-bold text-sm sm:text-base px-6 py-4 rounded-2xl border-2 transition-all bg-white text-ink border-zinc-200 hover:border-brand-400 cursor-pointer">Varilux</button>
+                            <button onclick="selectLens('hoya')" data-lens="hoya" class="lens-btn w-full text-left font-display font-bold text-sm sm:text-base px-6 py-4 rounded-2xl border-2 transition-all bg-white text-ink border-zinc-200 hover:border-brand-400 cursor-pointer">Hoya</button>
+                            <button onclick="selectLens('zeiss')" data-lens="zeiss" class="lens-btn w-full text-left font-display font-bold text-sm sm:text-base px-6 py-4 rounded-2xl border-2 transition-all bg-white text-ink border-zinc-200 hover:border-brand-400 cursor-pointer">Zeiss</button>
+                        </div>
+
+                        <div id="lens-explanation-box" class="bg-[#2E1F18] text-white rounded-3xl p-6 sm:p-10 shadow-lg card-anim"></div>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div class="max-w-2xl">
+                            <span class="text-brand-600 font-bold text-xs uppercase tracking-widest">Orientações</span>
+                            <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-ink mt-1">Como Pedir</h2>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-[#FAFAFA] border border-zinc-200/80 rounded-3xl p-7 relative">
+                                <span class="w-10 h-10 rounded-2xl bg-brand-600 text-white font-display font-extrabold text-base flex items-center justify-center mb-5 shadow-orange">1</span>
+                                <h3 class="font-display font-bold text-xl text-ink">Apresente sua receita</h3>
+                                <p class="text-sm sm:text-base text-zinc-600 mt-2.5 leading-relaxed">Traga sua receita médica na loja ou agende seu exame de vista diretamente com a dona pelo telefone (17) 99148-8562.</p>
+                            </div>
+
+                            <div class="bg-[#FAFAFA] border border-zinc-200/80 rounded-3xl p-7 relative">
+                                <span class="w-10 h-10 rounded-2xl bg-brand-600 text-white font-display font-extrabold text-base flex items-center justify-center mb-5 shadow-orange">2</span>
+                                <h3 class="font-display font-bold text-xl text-ink">Escolha armação e lente</h3>
+                                <p class="text-sm sm:text-base text-zinc-600 mt-2.5 leading-relaxed">Experimente nossas armações (a partir de R$ 70,00) e selecione o tratamento de lente ideal.</p>
+                            </div>
+
+                            <div class="bg-[#FAFAFA] border border-zinc-200/80 rounded-3xl p-7 relative">
+                                <span class="w-10 h-10 rounded-2xl bg-brand-600 text-white font-display font-extrabold text-base flex items-center justify-center mb-5 shadow-orange">3</span>
+                                <h3 class="font-display font-bold text-xl text-ink">Retire em 2 a 3 dias úteis</h3>
+                                <p class="text-sm sm:text-base text-zinc-600 mt-2.5 leading-relaxed">Seus óculos ficam prontos rapidamente com ajuste final e parcelamento em até 10x no cartão.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-armacoes" class="page-view">
+            <div class="bg-white pt-10 pb-16 sm:pt-14 sm:pb-24">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-3xl mb-10">
+                        <span class="inline-block px-3.5 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-bold uppercase tracking-widest mb-3">Catálogo de Produtos & Marcas</span>
+                        <h1 class="font-display text-3xl sm:text-5xl font-extrabold text-ink leading-tight">Qual armação combina com você?</h1>
+                        <p class="text-zinc-600 text-base sm:text-lg mt-3 leading-relaxed">Toque em um modelo para ver os detalhes e faixas de preço. Armações a partir de <strong class="text-brand-600">R$ 70,00</strong>, parceladas em até <strong>10x no cartão</strong>.</p>
+                    </div>
+
+                    <div class="bg-[#FFFDFB] border border-zinc-200/90 rounded-3xl p-5 sm:p-8 lg:p-10 shadow-soft mb-16">
+                        <div class="flex flex-col gap-3 mb-8 max-w-xl">
+                            <button onclick="selectFrame('infantil')" data-frame="infantil" class="frame-btn w-full text-left font-display font-bold text-sm sm:text-base px-6 py-4 rounded-2xl border-2 transition-all bg-[#2E1F18] text-white border-[#2E1F18] shadow-sm cursor-pointer">Coleção Infantil Kids</button>
+                            <button onclick="selectFrame('feminino')" data-frame="feminino" class="frame-btn w-full text-left font-display font-bold text-sm sm:text-base px-6 py-4 rounded-2xl border-2 transition-all bg-white text-ink border-zinc-200 hover:border-brand-400 cursor-pointer">Armações de Grau Femininas</button>
+                            <button onclick="selectFrame('masculino')" data-frame="masculino" class="frame-btn w-full text-left font-display font-bold text-sm sm:text-base px-6 py-4 rounded-2xl border-2 transition-all bg-white text-ink border-zinc-200 hover:border-brand-400 cursor-pointer">Armações de Grau Masculinas</button>
+                            <button onclick="selectFrame('solar')" data-frame="solar" class="frame-btn w-full text-left font-display font-bold text-sm sm:text-base px-6 py-4 rounded-2xl border-2 transition-all bg-white text-ink border-zinc-200 hover:border-brand-400 cursor-pointer">Óculos de Sol & Polarizados</button>
+                            <button onclick="selectFrame('marcas')" data-frame="marcas" class="frame-btn w-full text-left font-display font-bold text-sm sm:text-base px-6 py-4 rounded-2xl border-2 transition-all bg-white text-ink border-zinc-200 hover:border-brand-400 cursor-pointer">Marcas Próprias & Grifes (Origin, Gonçallè, Hickmann)</button>
+                        </div>
+
+                        <div id="frame-explanation-box" class="bg-[#2E1F18] text-white rounded-3xl p-6 sm:p-10 shadow-lg card-anim"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-exame" class="page-view">
+            <div class="bg-[#FAFAFA] pt-10 pb-16 sm:pt-14 sm:pb-24">
+                <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-2xl mx-auto mb-10">
+                        <span class="inline-block px-3.5 py-1 rounded-full bg-brand-100 text-brand-700 text-xs font-bold uppercase tracking-widest mb-3">Agendamento de Exame</span>
+                        <h1 class="font-display text-3xl sm:text-5xl font-extrabold text-ink leading-tight">Agendar Exame de Vista</h1>
+                        <p class="text-zinc-600 text-base sm:text-lg mt-3 leading-relaxed">Exame agendado com a dona no telefone (17) 99148-8562. Preencha o formulário abaixo para montar a mensagem para o WhatsApp.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                        <div class="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-9 border border-zinc-200/80 shadow-soft">
+                            <form id="exam-form" onsubmit="handleExamSubmit(event)" class="space-y-4">
+                                <div>
+                                    <label for="client-name" class="block text-sm font-bold text-ink mb-1.5">Nome completo *</label>
+                                    <input type="text" id="client-name" required placeholder="Digite seu nome" class="w-full px-4 py-3.5 rounded-xl border border-zinc-300 focus:border-brand-600 outline-none text-ink">
+                                </div>
+                                <div>
+                                    <label for="client-phone" class="block text-sm font-bold text-ink mb-1.5">Telefone / WhatsApp *</label>
+                                    <input type="tel" id="client-phone" required placeholder="Ex: (17) 99999-9999" class="w-full px-4 py-3.5 rounded-xl border border-zinc-300 focus:border-brand-600 outline-none text-ink">
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="preferred-day" class="block text-sm font-bold text-ink mb-1.5">Dia preferido</label>
+                                        <select id="preferred-day" class="w-full px-4 py-3.5 rounded-xl border border-zinc-300 bg-white text-ink">
+                                            <option value="Segunda a Sexta">Segunda a Sexta</option>
+                                            <option value="Sábado">Sábado</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="preferred-period" class="block text-sm font-bold text-ink mb-1.5">Período</label>
+                                        <select id="preferred-period" class="w-full px-4 py-3.5 rounded-xl border border-zinc-300 bg-white text-ink">
+                                            <option value="Manhã">Manhã</option>
+                                            <option value="Tarde">Tarde</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="exam-notes" class="block text-sm font-bold text-ink mb-1.5">Observação (opcional)</label>
+                                    <textarea id="exam-notes" rows="2" placeholder="Detalhes adicionais..." class="w-full px-4 py-3 rounded-xl border border-zinc-300 text-ink"></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-display font-bold text-base py-4 px-6 rounded-2xl shadow-orange transition-all flex items-center justify-center gap-2.5 mt-2 cursor-pointer">
+                                    <span>Montar mensagem para o WhatsApp</span>
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="lg:col-span-5 space-y-5">
+                            <div class="bg-brand-600 text-white rounded-3xl p-7 shadow-orange">
+                                <h3 class="font-display text-2xl font-bold mb-2">Telefone Oficial</h3>
+                                <p class="text-brand-50 text-sm leading-relaxed mb-5">(17) 99148-8562</p>
+                                <a href="https://wa.me/5517991488562?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20um%20exame%20de%20vista." target="_blank" rel="noopener noreferrer" class="w-full bg-white text-brand-700 hover:bg-brand-50 font-display font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 text-sm transition-colors">
+                                    <span>Chamar no WhatsApp</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-contato" class="page-view">
+            <div class="bg-white pt-10 pb-16 sm:pt-14 sm:pb-24">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-2xl mb-12">
+                        <span class="inline-block px-3.5 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-bold uppercase tracking-widest mb-3">Informações</span>
+                        <h1 class="font-display text-3xl sm:text-5xl font-extrabold text-ink leading-tight">Contato & Localização</h1>
+                        <p class="text-zinc-600 text-base sm:text-lg mt-3">Telefones, Instagram, horários e botão direto para o Google Maps.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                        <div class="lg:col-span-5 space-y-4">
+                            <div class="bg-[#FAFAFA] border border-zinc-200/80 rounded-2xl p-6">
+                                <p class="text-xs font-bold uppercase tracking-widest text-brand-600">Telefones</p>
+                                <p class="font-display text-xl font-extrabold text-ink mt-1">1- (17) 99148-8562</p>
+                                <p class="font-display text-xl font-extrabold text-ink mt-1">2- (17) 99148-8562</p>
+                            </div>
+
+                            <div class="bg-[#FAFAFA] border border-zinc-200/80 rounded-2xl p-6">
+                                <p class="text-xs font-bold uppercase tracking-widest text-brand-600">Instagram</p>
+                                <p class="font-display text-xl font-extrabold text-ink mt-1">@oticagonçalvesjales</p>
+                                <a href="https://www.instagram.com/oticagoncalvesjales/" target="_blank" rel="noopener noreferrer" class="mt-3 inline-block text-brand-600 font-bold text-sm underline">Abrir Instagram</a>
+                            </div>
+
+                            <div class="bg-[#FAFAFA] border border-zinc-200/80 rounded-2xl p-6">
+                                <p class="text-xs font-bold uppercase tracking-widest text-brand-600">Horário de Funcionamento</p>
+                                <p class="text-sm font-semibold text-ink mt-2">Segunda a sexta das 8 às 18h<br>Sábado das 9 às 12h</p>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-7 bg-[#FAFAFA] border border-zinc-200/80 rounded-3xl p-6 sm:p-8 flex flex-col justify-between">
+                            <div>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                                    <div>
+                                        <p class="text-xs font-bold uppercase tracking-widest text-brand-600">Endereço</p>
+                                        <h2 class="font-display text-xl sm:text-2xl font-extrabold text-ink mt-1">Rua Nove, 2381 - Centro</h2>
+                                        <p class="text-sm text-zinc-600">Jales - SP</p>
+                                    </div>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=%C3%93tica+Gon%C3%A7alves+Jales" target="_blank" rel="noopener noreferrer" class="bg-brand-600 hover:bg-brand-700 text-white font-display font-bold text-sm px-5 py-3.5 rounded-xl shadow-orange transition-all text-center shrink-0 flex items-center justify-center gap-2">
+                                        <span>Abrir Rota no Google Maps</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-ink text-zinc-300 pt-14 pb-10 border-t border-zinc-900">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-10 border-b border-zinc-800/80">
+                <div class="space-y-4">
+                    <span class="block font-display font-bold text-white text-lg leading-none">Ótica & Afiação Gonçalves</span>
+                    <p class="text-sm text-zinc-400">Rua Nove, 2381 - Centro, Jales - SP.</p>
+                </div>
+                <div>
+                    <h4 class="font-display text-white font-bold text-sm uppercase tracking-wider mb-4">Páginas</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><button onclick="navigateTo('inicio')" class="hover:text-brand-400 cursor-pointer">Início</button></li>
+                        <li><button onclick="navigateTo('lentes')" class="hover:text-brand-400 cursor-pointer">Lentes & Como Pedir</button></li>
+                        <li><button onclick="navigateTo('armacoes')" class="hover:text-brand-400 cursor-pointer">Armações & Modelos</button></li>
+                        <li><button onclick="navigateTo('exame')" class="hover:text-brand-400 cursor-pointer">Agendar Exame</button></li>
+                        <li><button onclick="navigateTo('contato')" class="hover:text-brand-400 cursor-pointer">Contato & Localização</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-display text-white font-bold text-sm uppercase tracking-wider mb-4">Horários</h4>
+                    <p class="text-sm text-zinc-400">Segunda a sexta das 8 às 18h<br>Sábado das 9 às 12h</p>
+                </div>
+                <div>
+                    <h4 class="font-display text-white font-bold text-sm uppercase tracking-wider mb-4">Contatos</h4>
+                    <p class="text-sm text-zinc-400">(17) 99148-8562<br>@oticagonçalvesjales</p>
+                </div>
+            </div>
+            <div class="pt-8 text-xs text-zinc-500 text-center">© Ótica & Afiação Gonçalves — Jales, SP.</div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/5517991488562?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20%C3%93tica%20%26%20Afia%C3%A7%C3%A3o%20Gon%C3%A7alves." target="_blank" rel="noopener noreferrer" class="fixed bottom-5 right-5 z-40 bg-[#25D366] text-white p-3.5 sm:px-5 sm:py-3.5 rounded-full shadow-lg hover:scale-105 transition-all flex items-center gap-2.5 font-display font-bold text-sm">
+        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+        </svg>
+        <span class="hidden sm:inline">WhatsApp</span>
+    </a>
+
+    <script>
+        const lensesData = {
+            'luz-azul': { badge: 'Proteção Digital', title: 'Filtro de Luz Azul', description: 'As lentes com Filtro de Luz Azul bloqueiam a luz azul-violeta nociva emitida por celulares, computadores e TVs, reduzindo a fadiga ocular, ardência e dores de cabeça.' },
+            'antirreflexo': { badge: 'Visão Limpa', title: 'Lentes com Antirreflexo', description: 'Eliminam reflexos incômodos na superfície da lente, proporcionando maior nitidez, conforto ao dirigir à noite e excelente estética.' },
+            'kodak': { badge: 'Multifocal', title: 'Multifocais Kodak', description: 'Transição suave entre longe, intermediário e perto, garantindo excelente adaptação e ótimo custo-benefício.' },
+            'varilux': { badge: 'Multifocal Premium', title: 'Varilux', description: 'Referência mundial em lentes multifocais, oferecendo campos de visão amplos e estabilidade em movimento.' },
+            'hoya': { badge: 'Tecnologia Japonesa', title: 'Hoya', description: 'Precisão óptica japonesa que assegura nitidez de borda a borda e armações mais leves.' },
+            'zeiss': { badge: 'Alta Definição Alemã', title: 'Zeiss', description: 'Tradição alemã em lentes de alta definição com contraste aprimorado e foco instantâneo em qualquer distância.' }
+        };
+
+        const framesData = {
+            'infantil': { badge: 'Coleção Kids', title: 'Coleção Infantil', description: 'Armações desenvolvidas especialmente para crianças: leves, flexíveis, anatômicas e muito resistentes. Preços acessíveis a partir de R$ 70,00.' },
+            'feminino': { badge: 'Grau Feminino', title: 'Armações de Grau Femininas', description: 'Variedade em acetato e metal, desde o clássico até modelos modernos como redondos rose gold, formatos gatinho e acetato translúcido. Conforto e elegância.' },
+            'masculino': { badge: 'Grau Masculino', title: 'Armações de Grau Masculinas', description: 'Modelos robustos em acetato preto ou marrom e armações de metal de leveza extrema. Estilo firme e excelente durabilidade.' },
+            'solar': { badge: 'Óculos de Sol', title: 'Óculos de Sol & Polarizados', description: 'Proteção UV total com lentes polarizadas (a partir de R$ 150,00) e modelos com tecnologia Clip-on 2 em 1 (grau e sol em uma única armação).' },
+            'marcas': { badge: 'Exclusividade', title: 'Marcas Próprias & Grifes', description: 'Conheça nossas marcas próprias Origin e Gonçallè family, além de parcerias com grifes renomadas como Hickmann. Qualidade e sofisticação.' }
+        };
+
+        window.selectLens = function(lensKey) {
+            const data = lensesData[lensKey];
+            if (!data) return;
+
+            document.querySelectorAll('.lens-btn').forEach(btn => {
+                if (btn.getAttribute('data-lens') === lensKey) {
+                    btn.classList.remove('bg-white', 'text-ink', 'border-zinc-200');
+                    btn.classList.add('bg-[#2E1F18]', 'text-white', 'border-[#2E1F18]', 'shadow-sm');
+                } else {
+                    btn.classList.remove('bg-[#2E1F18]', 'text-white', 'border-[#2E1F18]', 'shadow-sm');
+                    btn.classList.add('bg-white', 'text-ink', 'border-zinc-200');
+                }
+            });
+
+            const box = document.getElementById('lens-explanation-box');
+            box.classList.remove('card-anim');
+            void box.offsetWidth;
+            box.classList.add('card-anim');
+
+            box.innerHTML = `
+                <span class="inline-block px-3.5 py-1.5 rounded-full bg-white/10 text-brand-200 text-xs font-bold uppercase tracking-wider mb-3">${data.badge}</span>
+                <h3 class="font-display text-2xl font-extrabold text-white mb-2.5">${data.title}</h3>
+                <p class="text-zinc-300 text-base leading-relaxed">${data.description}</p>
+                <div class="mt-6 pt-4 border-t border-white/10 text-xs text-zinc-400">Dica: Traga sua receita na ótica para fazermos um orçamento exato.</div>
+            `;
+        };
+
+        window.selectFrame = function(frameKey) {
+            const data = framesData[frameKey];
+            if (!data) return;
+
+            document.querySelectorAll('.frame-btn').forEach(btn => {
+                if (btn.getAttribute('data-frame') === frameKey) {
+                    btn.classList.remove('bg-white', 'text-ink', 'border-zinc-200');
+                    btn.classList.add('bg-[#2E1F18]', 'text-white', 'border-[#2E1F18]', 'shadow-sm');
+                } else {
+                    btn.classList.remove('bg-[#2E1F18]', 'text-white', 'border-[#2E1F18]', 'shadow-sm');
+                    btn.classList.add('bg-white', 'text-ink', 'border-zinc-200');
+                }
+            });
+
+            const box = document.getElementById('frame-explanation-box');
+            box.classList.remove('card-anim');
+            void box.offsetWidth;
+            box.classList.add('card-anim');
+
+            box.innerHTML = `
+                <span class="inline-block px-3.5 py-1.5 rounded-full bg-white/10 text-brand-200 text-xs font-bold uppercase tracking-wider mb-3">${data.badge}</span>
+                <h3 class="font-display text-2xl font-extrabold text-white mb-2.5">${data.title}</h3>
+                <p class="text-zinc-300 text-base leading-relaxed">${data.description}</p>
+                <div class="mt-6 pt-4 border-t border-white/10 text-xs text-zinc-400">Parcelamento em até 10x no cartão • Pronta entrega em 2 a 3 dias úteis.</div>
+            `;
+        };
+
+        window.navigateTo = function(pageId) {
+            document.querySelectorAll('.page-view').forEach(sec => sec.classList.remove('active'));
+            const target = document.getElementById('page-' + pageId);
+            if (target) target.classList.add('active');
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('data-nav') === pageId) {
+                    link.classList.add('text-brand-600', 'bg-brand-50');
+                    link.classList.remove('text-zinc-600');
+                } else {
+                    link.classList.remove('text-brand-600', 'bg-brand-50');
+                    link.classList.add('text-zinc-600');
+                }
+            });
+
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                if (link.getAttribute('data-nav-mobile') === pageId) {
+                    link.classList.add('bg-brand-50', 'text-brand-600');
+                } else {
+                    link.classList.remove('bg-brand-50', 'text-brand-600');
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.toggleMobileMenu = function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+            document.getElementById('menu-icon-open').classList.toggle('hidden');
+            document.getElementById('menu-icon-close').classList.toggle('hidden');
+        };
+
+        window.handleExamSubmit = function(event) {
+            event.preventDefault();
+            const name = document.getElementById('client-name').value.trim();
+            const phone = document.getElementById('client-phone').value.trim();
+            const day = document.getElementById('preferred-day').value;
+            const period = document.getElementById('preferred-period').value;
+            const notes = document.getElementById('exam-notes').value.trim();
+
+            let msg = `Olá! Gostaria de agendar um *Exame de Vista* na Ótica & Afiação Gonçalves.\n\n`;
+            msg += `*Nome:* ${name}\n`;
+            msg += `*Telefone:* ${phone}\n`;
+            msg += `*Dia:* ${day}\n`;
+            msg += `*Período:* ${period}\n`;
+            if (notes) msg += `*Observação:* ${notes}\n`;
+
+            const url = `https://wa.me/5517991488562?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank', 'noopener,noreferrer');
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            selectLens('luz-azul');
+            selectFrame('infantil');
+        });
+    </script>
+</body>
+</html>
